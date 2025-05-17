@@ -1,5 +1,3 @@
-# vaultguard
-
 Generic single-database configuration.
 
 # VaultGuard API
@@ -64,6 +62,163 @@ alembic upgrade head
 
 If not, ensure your database is created and tables are initialized.
 
+### 6. **Make a User an Admin**
+
+Start a Python shell in your project directory:
+
+bash
+python
+
+Run the following code:
+
+python
+from app.database import SessionLocal
+from app.models import User
+
+db = SessionLocal()
+user = db.query(User).filter(User.username == "your_username_here").first()
+if user:
+    user.is_admin = True
+    db.commit()
+    print(f"User '{user.username}' is now an admin!")
+else:
+    print("User not found.")
+db.close()
+
+Replace "your_username_here" with the username you want to promote.
+
+### 7. **For creating a wallet for user **
+
+bash 
+python
+
+
+from app.database import SessionLocal
+from app.models import User, Wallet
+
+db = SessionLocal()
+user = db.query(User).filter(User.username == "your_username_here").first()
+if user and not user.wallet:
+    db_wallet = Wallet(user_id=user.id)
+    db.add(db_wallet)
+    db.commit()
+    print(f"Wallet created for user '{user.username}'")
+else:
+    print("User not found or wallet already exists")
+db.close()
+
+Replace "your_username_here" with the username you want to fix.
+
+# 🚦 How to Use VaultGuard API: Step-by-Step
+
+This guide shows how to register, authenticate, and use the VaultGuard API with curl commands.
+
+---
+
+## 1. Register a New User
+
+curl -X POST "http://127.0.0.1:8000/user/register"
+-F "username=alice"
+-F "password=alicepass"
+
+text
+
+---
+
+## 2. Login to Obtain a JWT Token
+
+curl -X POST "http://127.0.0.1:8000/user/login"
+-F "username=alice"
+-F "password=alicepass"
+
+text
+
+- Copy the `access_token` from the response.
+- You will use this token to authenticate all further requests.
+
+---
+
+## 3. Authenticate API Requests
+
+For any endpoint that requires authentication, add this header:
+
+Authorization: Bearer <your-token>
+
+text
+Replace `<your-token>` with the JWT token you received from the login step.
+
+---
+
+## 4. Deposit Funds
+
+curl -X POST "http://127.0.0.1:8000/deposit"
+-H "Authorization: Bearer <your-token>"
+-H "Content-Type: application/json"
+-d '{"amount": 5000}'
+
+text
+
+---
+
+## 5. Withdraw Funds
+
+curl -X POST "http://127.0.0.1:8000/withdraw"
+-H "Authorization: Bearer <your-token>"
+-H "Content-Type: application/json"
+-d '{"amount": 2000}'
+
+text
+
+---
+
+## 6. Transfer Funds to Another User
+
+First, register another user (e.g., bob), then:
+
+curl -X POST "http://127.0.0.1:8000/transfer"
+-H "Authorization: Bearer <your-token>"
+-H "Content-Type: application/json"
+-d '{"recipient_username": "bob", "amount": 1000}'
+
+text
+
+---
+
+## 7. Check Wallet Balance
+
+curl -X GET "http://127.0.0.1:8000/wallet/balance"
+-H "Authorization: Bearer <your-token>"
+
+text
+
+---
+
+## 8. View Transaction History
+
+curl -X GET "http://127.0.0.1:8000/wallet/history"
+-H "Authorization: Bearer <your-token>"
+
+text
+
+---
+
+## 9. (Optional) Access Admin Endpoints
+
+To use admin endpoints, make your user an admin (see the “How to Make a User an Admin” section above), then use your token with admin routes like:
+
+curl -X GET "http://127.0.0.1:8000/admin/flagged-transactions"
+-H "Authorization: Bearer <your-token>"
+
+text
+
+
+
+---
+
+**You are now ready to use all features of VaultGuard API!**
+
+
+
 ---
 
 ## 🚦 Running the Server
@@ -113,10 +268,11 @@ uvicorn app.main:app --reload
 
 ## 📝 Example Usage
 
-### **Register, Login, Deposit, and Transfer**
+### **Register, Login, Deposit,Transfer and withdraw**
 
 Register
 curl -X POST "http://127.0.0.1:8000/user/register" -F "username=alice" -F "password=alicepass"
+
 
 Login (get JWT)
 curl -X POST "http://127.0.0.1:8000/user/login" -F "username=alice" -F "password=alicepass"
@@ -134,6 +290,12 @@ curl -X POST "http://127.0.0.1:8000/transfer"
 -H "Content-Type: application/json"
 -d '{"recipient_username": "bob", "amount": 1000}'
 
+Withdraw
+curl -X POST "http://127.0.0.1:8000/withdraw" \
+-H "Authorization: Bearer <your-token>" \
+-H "Content-Type: application/json" \
+-d '{"amount": 2000}'
+Replace <your-token> with your actual JWT token
 text
 
 ---
