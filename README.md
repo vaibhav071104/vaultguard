@@ -109,6 +109,8 @@ db.close()
 
 Replace "your_username_here" with the username you want to fix.
 
+STEP 6 AND STEP 7 SHOULD BE DONE AFTER DOING REGISTRATION AND LOGIN OF A PARTICULAR USER OF YOUR CHOICE 
+
 # 🚦 How to Use VaultGuard API: Step-by-Step
 
 This guide shows how to register, authenticate, and use the VaultGuard API with curl commands.
@@ -136,6 +138,7 @@ text
 - Copy the `access_token` from the response.
 - You will use this token to authenticate all further requests.
 
+AFTER DOING THE FIRST TWO STEPS GO TO AUTHORIZE IN THE TOP RIGHT THEN TYPE IN THE SAME USERNAME AND PASSWORD YOU USED FOR REGISTERING THE USER 
 ---
 
 ## 3. Authenticate API Requests
