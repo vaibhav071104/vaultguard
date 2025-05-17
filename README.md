@@ -67,7 +67,8 @@ If not, ensure your database is created and tables are initialized.
 ---
 
 ## 🚦 Running the Server
-uvicorn main:app --reload
+uvicorn app.main:app --reload
+
 
 
 
