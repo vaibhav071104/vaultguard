@@ -159,6 +159,9 @@ curl -X POST "http://127.0.0.1:8000/deposit"
 -H "Content-Type: application/json"
 -d '{"amount": 5000}'
 
+remember to create a wallet for the username you logged in by 
+(the code for that is given above in the file )
+
 text
 
 ---
@@ -192,6 +195,8 @@ text
 curl -X GET "http://127.0.0.1:8000/wallet/balance"
 -H "Authorization: Bearer <your-token>"
 
+
+
 text
 
 ---
@@ -213,6 +218,11 @@ curl -X GET "http://127.0.0.1:8000/admin/flagged-transactions"
 -H "Authorization: Bearer <your-token>"
 
 text
+
+## 10. FOR SEEING THE TOTAL BALANCES IN ADMIN ENDPOINT 
+ remember to set the username you logged in by as the admin 
+if not admin you wont be able to see the total balance (for security and privacy reasons )
+the code for setting the user as admin is given above
 
 
 
