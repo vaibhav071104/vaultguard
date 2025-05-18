@@ -5,6 +5,8 @@ Generic single-database configuration.
 A secure, feature-rich wallet and transaction management API built with FastAPI, SQLAlchemy, and JWT authentication.  
 Includes fraud detection, soft delete, admin features, and more.
 
+https://github.com/user-attachments/assets/1bf61a4a-d1bc-49ca-bffe-07ab49f82db1
+
 ---
 
 ## 🚀 Features
